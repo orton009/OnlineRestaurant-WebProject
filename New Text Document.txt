@@ -1,0 +1,83 @@
+Enter password: ******
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 111
+Server version: 5.6.36-log MySQL Community Server (GPL)
+
+Copyright (c) 2000, 2017, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use Products ;
+Database changed
+mysql> select *  from food ;
++-----+--------------------------+----------+-------+
+| id  | name                     | type     | price |
++-----+--------------------------+----------+-------+
+| 101 | DOUBLE CHEESE BURGER     | BURGER   |   130 |
+| 102 | AALOO TIKKI BURGER       | BURGER   |    70 |
+| 103 | NON VEG BURGER           | BURGER   |    90 |
+| 104 | PIZZA BURGER             | BURGER   |   200 |
+| 105 | VEGGIE BURGER            | BURGER   |   150 |
+| 201 | PIZZA MARGHERITA         | PIZZA    |   230 |
+| 202 | PIZZA MARINARA           | PIZZA    |   270 |
+| 203 | SICILIAN PIZZA           | PIZZA    |   330 |
+| 204 | GREEK PIZZA              | PIZZA    |   350 |
+| 205 | CHICAGO PIZZA            | PIZZA    |   370 |
+| 301 | STEAK AND CHEESE SUB     | SUBS     |   180 |
+| 302 | ITALIAN BMT SUB          | SUBS     |   330 |
+| 303 | AUTUMN CARVED TURKEY SUB | SUBS     |   390 |
+| 304 | VEGGIE DELIGHT SUB       | SUBS     |   180 |
+| 305 | HAM AND CHEESE           | SUBS     |   280 |
+| 401 | MEXICAN SANDWICH         | SANDWICH |   150 |
+| 402 | ITALIAN SANDWICH         | SANDWICH |   190 |
+| 403 | FRENCH SANDWICH          | SANDWICH |   170 |
+| 404 | SAUSAGE SANDWICH         | SANDWICH |   260 |
+| 405 | PHILLY STEAK SANDWICH    | SANDWICH |   250 |
++-----+--------------------------+----------+-------+
+20 rows in set (0.00 sec)
+
+mysql> select * from CustomerInfo ;
++----------------+-------------------------+-------------+----------------------
+-------+-------+------------------+---------------+
+| name           | email                   | phoneNumber | address
+       | city  | area             | orderId       |
++----------------+-------------------------+-------------+----------------------
+-------+-------+------------------+---------------+
+| RahulSinghai   | rsingha45@gmail.com     | 8770841123  | RNT marg Indore
+       | Satna | Hoshangabad Road | OD-932855521  |
+| Drupad Singh   | drupadsingh98@gmail.com | 8085542314  |  JC BOSE BOYS HOSTEL
+INDORE | Satna | null             | OD-1859887066 |
+| Aayushi tiwari | astiwari00234@gmail.com | 8976345644  | Allahabad marg bhopal
+       | Satna | null             | OD-790703036  |
+| AnanyaMankee   | ananya.089@gmail.com    | 9876443215  | pink  city bhopal
+       | Satna | null             | OD2139893898  |
+| Paddydsfcsd    | drupadsingh98@gmail.com | 9895544752  | ygjyhg
+       | Satna | YN Road          | OD-1362848894 |
+| nbjnbm,mnnnb,m | bm@fyhg.hj              | 7856453423  | nbjhbmjbmj
+       | Satna | null             | OD-835685155  |
+| sdvfdsfe       | sdnj@hgmial.com         | 9765243512  | yn road
+       | Satna | MP Nagar         | OD1084572872  |
+| drupadsingh    | drupadsingh98@gmail.com | 8085542513  | yn road
+       | Satna | null             | OD-747813919  |
+| Drupadsingh    | drupadsingh98@gmail.com | 8085542513  | yn road
+       | Satna | null             | OD-1638241302 |
++----------------+-------------------------+-------------+----------------------
+-------+-------+------------------+---------------+
+9 rows in set (0.00 sec)
+
+mysql> select * from Orders ;
++-----+--------------------------+----------+-------+------+------------+
+| id  | name                     | type     | price | qty  | totalPrice |
++-----+--------------------------+----------+-------+------+------------+
+| 101 | DOUBLE CHEESE BURGER     | BURGER   |   130 |    2 |        260 |
+| 104 | PIZZA BURGER             | BURGER   |   200 |    3 |        600 |
+| 303 | AUTUMN CARVED TURKEY SUB | SUBS     |   390 |    4 |       1560 |
+| 402 | ITALIAN SANDWICH         | SANDWICH |   190 |    2 |        380 |
++-----+--------------------------+----------+-------+------+------------+
+4 rows in set (0.00 sec)
+
+mysql>

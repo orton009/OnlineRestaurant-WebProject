@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+    <head>
+        <title>Menu</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="shortcut icon" href="#">
+        <style>
+            body
+            {
+                background-color:azure;
+                background:url(https://previews.123rf.com/images/lmv/lmv1208/lmv120800017/14957881-Design-the-menu-background-Vintage-paper-Stock-Vector-restaurant.jpg)
+            }
+            h2
+            {
+              font-size:40px;
+              margin-bottom:27px;
+            }
+            h1
+            {
+                background-color:bisque;
+                margin-bottom:20px;
+                font-size:20px;
+
+            }
+            element
+            {
+                font-size: 20px; 
+                margin-bottom:40px;
+            }
+            button
+            {
+                background-color: #4CAF50; /* Green */
+                border: none;
+                color: white;
+                padding: 10px 15px;
+                text-align: center;
+                text-decoration: none;
+                display:block-inline;
+                font-size: 10px;
+                float:right;
+            }
+            button:hover
+            {
+                box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+            }
+        </style>
+    </head>
+    <body>
+      <script>
+            {
+                 var cart = [];
+                 var item = function(name,price,count)
+                 {
+                       this.name=name;
+                       this.price=price;
+                       this.count=count;
+                    
+                 };
+                 
+                 function AddItemToCart(name,price,count)
+                {
+                     for(var i in cart){
+                        if(cart[i].name === name)
+                        {
+                          cart[i].count++;
+                          return;
+                        }
+                     }
+                     var Item= new item(name,price,count);
+                     cart.push(Item);
+                };
+
+                console.log(cart.length);
+                console.log(cart);
+                
+                function RemoveItemsFromCart(name)
+                {
+                     for (var i in cart){
+                        if (cart[i].name === name)
+                        {
+                            cart[i].count--;
+                        }
+                        if (cart[i].count <= 0)
+                        { cart.slice(i,1); }
+                        break;
+                    }
+                };
+                
+                function Countcost()
+                {
+                    var bill=0;
+                    var c,k;
+                    for (c=0;c<1;c++)
+                    {
+                         console.log("HI");
+                         k=cart[c].price;
+                         bill = bill + k;
+                    }
+                    return bill;
+                }
+                   
+                 
+                 console.log(Countcost());  
+                 
+                 
+         
+            }
+        </script>
+      <h2>MENU</h2>
+      <h1>Starters >></h1>
+        
+      <element> hara-bhara kabab</element>
+      <button type="submit" onclick="AddToCart(150613,5623468,'',4,'','',true);return false;">ADD</button>
+      <br>
+          
+      <element>spring rolls</element>
+      <button type="button" onclick="alert('Added to the cart!')">ADD</button>
+      <br>
+          
+      <h1>Main-Course >></h1>
+      <element>malai-kofta</element><br>
+      <button type="button" onclick="alert('Added to the cart!')">ADD</button>
+          
+      <br>
+      <element>Tandoori roti</element><br>
+      <button type="button" onclick="alert('Added to the cart!')">ADD</button>
+      <br>
+          
+      <h1>Desserts >></h1>
+      <element>Ras malai</element><br>
+      <button type="button" onclick="AddItemToCart('Ras Malai',12,1)">ADD</button>
+       
+      <br>
+      <element>chocolate milkshake</element><br>
+      <button type="button" onclick="AddItemToCart('Chocolate Milkshake',23,1)">ADD</button>
+       <button type="button" onclick="RemoveItemsFromCart('Chocolate Milkshake')">REMOVE</button>
+      <br> 
+            
+      </body>     
+      
+</html>

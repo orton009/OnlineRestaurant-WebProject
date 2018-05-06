@@ -1,0 +1,19 @@
+<html>
+<head>
+<link rel="stylesheet" href="stylish.css">
+<title>test</title>
+</head>
+<body>
+    <div class="img-container">
+            <img src="images\aaloo_tikki_burger.jpg" class="img">
+            <img src="images\double_cheese_burger.jpg" class="img">
+    </div>
+    <div class="img-container">
+            <img src="images\non_veg_burger.jpeg" class="img">
+            <img src="images\pizza_burger.jpg" class="img">            
+    </div>
+    <div class="img-container">
+            <img src="images\veggie_burger.jpg" class="img">          
+    </div>
+</body>
+</html>

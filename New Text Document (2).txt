@@ -1,0 +1,275 @@
+<%@ page import = "java.io.*,java.util.*,java.sql.*"%>
+<%@ page import = "javax.servlet.http.*,javax.servlet.*" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix = "c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix = "sql"%>
+<%@page import = "newpackage.*"%>
+<!--  handles post request here -->
+<%! public String changeTable(int quantity,float price,int item_id){
+    String query5 = "UPDATE Orders SET qty ="+quantity+",totalPrice ="+quantity*price+"Where id = "+item_id ;
+	return query5;
+	}
+%>
+<%
+	Products p=(Products)session.getAttribute("myproducts");
+	Customer c =(Customer)session.getAttribute("newCustomer");
+	Order o = (Order)session.getAttribute("newOrder");
+	if(request.getParameter("id")!=null){
+		if(p.totalItems<5)
+		{
+			p.itemId[p.totalItems] = Integer.parseInt(request.getParameter("id"));
+			p.totalItems++;
+		}
+		else
+		{
+			// write code to show that cart is full now reinserting items at first position of array.
+		p.totalItems = 0;
+		p.itemId[p.totalItems] = Integer.parseInt(request.getParameter("id"));
+		}
+	}
+	String prepareCondition = "" ;
+	for(int i=0;i<p.totalItems;i++){
+		if(i != p.totalItems-1)
+			prepareCondition += p.itemId[i] + "|| id = ";
+		else
+			prepareCondition += p.itemId[i] ;
+	}
+	System.out.println("Total items added in cart are :" + p.totalItems);
+%>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Relish Food</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8">
+<!-- bootstrap-css -->
+<link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+<!--// bootstrap-css -->
+<!-- css -->
+<link rel="stylesheet" href="css/style.css" type="text/css" media="all" />
+<link rel="stylesheet" href="css/style2.css" type="text/css" media="all" />
+
+<!--// css -->
+<!-- gallery -->
+<link rel="stylesheet" href="css/lightbox.css">
+<!-- //gallery -->
+<!-- font-awesome icons -->
+<link href="css/font-awesome.css" rel="stylesheet"> 
+<!-- //font-awesome icons -->
+<!-- font -->
+<link href="//fonts.googleapis.com/css?family=Pacifico&amp;subset=latin-ext,vietnamese" rel="stylesheet">
+<link href="//fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet">
+<link href='//fonts.googleapis.com/css?family=Roboto+Condensed:400,700italic,700,400italic,300italic,300' rel='stylesheet' type='text/css'>
+<!-- //font -->
+<script src="js/jquery-1.11.1.min.js"></script>
+<script src="js/bootstrap.js"></script>
+</head>
+
+<body style="background-image:url(images/1.jpg); ">
+	<div class="header">
+		<div class="container" style="padding:10px">
+			<nav class="navbar navbar-default">
+				<!-- Brand and toggle get grouped for better mobile display -->
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<div class="agileits-logo">
+						<h1><a href="index.html">Relish<span style="font-size: 15px;">Restaurant</span></a></h1>
+					</div>
+				</div>
+
+				<!-- Collect the nav links, forms, and other content for toggling -->
+				<div class="collapse navbar-collapse nav-wil" id="bs-example-navbar-collapse-1">
+					<nav>
+						<ul class="nav navbar-nav">
+							<li><a href="index3.jsp" class="scroll">About</a></li>
+							<li><a href="index5.jsp" class="scroll">Menu</a></li>
+							<li><a href="index6.jsp" class="scroll">Cart</a></li>
+							<li><a href="index9.jsp" class="scroll">Mail Us</a></li>
+						</ul>
+					</nav>
+				</div>
+				<!-- /.navbar-collapse -->
+			</nav>
+		</div>
+	</div>
+
+<!-- team -->
+
+	<div class="cart" style="display:block;" id="cart-view">
+		<div class="cart-title">
+			<h1>
+				<b>Review Order</b>
+				<small>
+				<%=p.totalItems%> items are in the cart
+				</small>
+			</h1>
+		</div>
+		<table class="cart-table" id="cart-container">
+			<thead>
+				<tr>
+					<th>Product Description</th>
+					<th>Price</th>
+					<th>Quantity</th>
+					<th>Total</th>
+				</tr>
+			</thead>
+	 		<tbody>
+ <%
+ 	o.totalPrice = 0;
+    String dbURL = "jdbc:mysql://localhost/Products";
+    String username = "root";
+    String password = "abc123" ;
+    Class.forName("com.mysql.jdbc.Driver");
+    Connection con=DriverManager.getConnection(dbURL,username,password);
+    Statement st=con.createStatement();
+    ResultSet result ;
+    if(request.getParameter("dec-btn")!=null){
+		String pos = request.getParameter("dec-btn");
+		int position = Integer.valueOf(pos);
+		if(p.itemQuantityId[position] > 1)
+			p.itemQuantityId[position] = p.itemQuantityId[position] - 1 ;
+ }
+	if(request.getParameter("inc-btn")!=null){
+		String pos = request.getParameter("inc-btn");
+		int position = Integer.valueOf(pos);
+		p.itemQuantityId[position] = p.itemQuantityId[position] + 1 ;
+	}
+	if(request.getParameter("close-btn")!=null){
+		//remove the item
+		String pos = request.getParameter("close-btn");
+		int position = Integer.valueOf(pos);
+		String query ="DELETE FROM Orders where id = " + p.itemId[position];
+		int res = st.executeUpdate(query) ;
+		//p.itemId = Products.removeElement(p.itemId, p.itemId[position]);
+		//p.itemQuantityId = Products.removeElement(p.itemQuantityId, p.itemQuantityId[position]);
+		p.totalItems -- ;
+		
+	}
+
+    p.itemNumber = 0;
+    if(p.totalItems!=0)
+    {
+	    String query1 ="DELETE FROM Orders";
+	    String query2 = "INSERT INTO Orders(id,name,type,price,qty,totalPrice) SELECT id,name,type,price,1,price from food where id = " + prepareCondition ;
+	    String query3  = "SELECT * from Orders" ;
+	    int rsTemp = st.executeUpdate(query1);
+	    rsTemp = st.executeUpdate(query2);
+	    result=st.executeQuery(query3);
+    }
+    else {
+    	String query4 = "SELECT * from food where id is null;" ;
+    	result = st.executeQuery(query4);
+    } 
+    	while(result.next())
+           {
+             p.itemId[p.itemNumber] = Integer.parseInt(result.getString("id"));
+             p.itemName = result.getString("name");
+             p.itemType = result.getString("type");
+             p.itemPriceId[p.itemNumber] = Float.valueOf(result.getString("price"));
+             System.out.println("Total price of all the items :"+p.itemPriceId[p.itemNumber]*p.itemQuantityId[p.itemNumber]);
+             o.totalPrice+=p.itemPriceId[p.itemNumber]*p.itemQuantityId[p.itemNumber] ;
+			//o.totalPrice+= p.itemPriceId[p.itemNumber]*p.itemQuantityId[p.itemNumber] ; 
+             %>				
+				<tr>
+					<td>
+						<%=p.itemId[p.itemNumber]%>
+						<%=p.itemName %>
+						<br>category: 
+					</td>
+					<td>Rs.<%=p.itemPriceId[p.itemNumber]%>
+					<td>
+						<form method="POST" action="index6.jsp">
+							<div class="span1" style="max-width:34px;size:16;" id="appendedInputButtons" >
+							<%=p.itemQuantityId[p.itemNumber]%>
+							</div>
+							<div class="input-append">
+	                   			<button class="btn btn-mini" type="submit" value="<%=p.itemNumber %>" name="dec-btn">-</button>
+			                    <button class="btn btn-mini" type="submit" value="<%=p.itemNumber %>" name="inc-btn">+</button>
+			                    <button class="btn btn-mini" type ="submit" style="background-color:red;color:white;" value="<%=p.itemNumber %>" name="close-btn">x<span class="icon-remove"></span></button>
+	                		</div>
+	                	</form>		
+                   </td>
+					<td> Rs. <%=p.itemPriceId[p.itemNumber] * p.itemQuantityId[p.itemNumber] %> </td>
+				</tr>
+<%               
+	p.itemNumber++;  }
+    for(int i=0;i<p.totalItems;i++){
+    	int rsTemp = st.executeUpdate(changeTable(p.itemQuantityId[i],p.itemPriceId[i],p.itemId[i]));				    	
+    }
+%>	
+
+
+			</tbody>	
+		</table>
+		<a href="#" class="cart-btn-next" id="next-btn">Next <span class="icon-arrow-right"></span></a>
+		<div id="message-cart" style="display:none;margin :20%;padding:20%">Please add some product on cart !</div>
+	</div>
+	<script type="text/javascript">
+		var btn_submit = document.getElementById("next-btn");
+		btn_submit.addEventListener('click',function(){
+			document.getElementById("cart-view").setAttribute("style","display:none;");
+			document.getElementById("contact-form").setAttribute("style","display:block;");
+		});
+		
+		var no_of_items = <%=p.totalItems%> ;
+		if(no_of_items == 0){
+		 	var cart_container = document.getElementById("cart-container");
+		 	cart_container.setAttribute("style","display:none;");
+		 	document.getElementById("next-btn").setAttribute("style","display:none;");
+		 	document.getElementById("message-cart").setAttribute("style","display:inline-block;");
+		}
+	</script>
+	<div class="contact-form" id="contact-form" style="display:none;">
+			<h1 class="form-title" style="margin-bottom: 20px;text-align: center;font-size: 30px;color: white"><b>Contact information</b></h1>
+				<div class="w3layouts_main_grid">
+					<form action="indexl.jsp" method="post" class="w3_form_post">
+						<div class="w3_agileits_main_grid w3l_main_grid">
+							<span class="agileits_grid">
+								<label>First Name </label>
+								<input type="text" name="fname" placeholder="First Name" required="">
+							</span>
+						</div>
+						<div class="w3_agileits_main_grid w3l_main_grid">
+							<span class="agileits_grid">
+								<label>Last Name </label>
+								<input type="text" name="lname" placeholder="Last Name" required="">
+							</span>
+						</div>
+						<div class="w3_agileits_main_grid w3l_main_grid">
+							<span class="agileits_grid">
+								<label>Your Email </label>
+								<input type="email" name="email" placeholder="Your Email" required="">
+							</span>
+						</div>
+						<div class="w3_agileits_main_grid w3l_main_grid">
+							<span class="agileits_grid">
+								<label>Phone Number </label>
+								<input type="number" onblur="if(this.value.length!=10)alert('Invalid phone number!!');" name="phoneno" placeholder="Phone Number" required="">
+								</span>
+						</div>
+						<div class="w3_agileits_main_grid w3l_main_grid">
+							<span class="agileits_grid">
+								<label> Your Address </label>
+								<input type="text" name="address" placeholder="address" required="">
+								</span>
+						</div>
+						<div class="w3_main_grid">
+						<div class="w3_main_grid_right" style="width: 100%">
+						<input type="submit" value="Submit">
+						</div>
+						<div class="w3_main_grid_right" style="margin-top: 10px;">
+							<input type="reset" value="reset">
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>`	
+<!--footer-->
+		
+</body>	
+</html>
